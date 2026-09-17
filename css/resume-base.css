@@ -1,0 +1,396 @@
+/* ==========================================================================
+   RESUME BASE & PRINT STYLES (ATS-FRIENDLY)
+   ========================================================================== */
+
+:root {
+  --primary-color: #1e3a8a;       /* Default Accent Color */
+  --primary-light: #eff6ff;
+  --text-dark: #111827;           /* High contrast body text */
+  --text-muted: #4b5563;          /* Secondary metadata text */
+  --text-subtle: #6b7280;
+  --border-color: #e5e7eb;
+  --divider-color: #cbd5e1;
+  --resume-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --resume-font-size: 10pt;
+  --resume-line-height: 1.45;
+  --section-spacing: 14px;
+  --item-spacing: 10px;
+}
+
+/* Base Paper Container (Simulating A4 paper in editor preview) */
+.resume-paper-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0 60px 0;
+  min-height: 100%;
+}
+
+.resume-paper {
+  background: #ffffff;
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm 18mm 20mm 18mm;
+  box-sizing: border-box;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  color: var(--text-dark);
+  font-family: var(--resume-font);
+  font-size: var(--resume-font-size);
+  line-height: var(--resume-line-height);
+  position: relative;
+  transition: all 0.2s ease;
+  word-break: break-word;
+}
+
+/* Page Break Indicator Guide in Preview (Non-printed) */
+.resume-paper::after {
+  content: "";
+  position: absolute;
+  top: 297mm;
+  left: 0;
+  right: 0;
+  border-top: 2px dashed rgba(239, 68, 68, 0.4);
+  pointer-events: none;
+  display: var(--show-page-break, block);
+}
+
+.resume-paper .page-2-indicator {
+  position: absolute;
+  top: calc(297mm - 20px);
+  right: 12px;
+  font-size: 9px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  pointer-events: none;
+  display: var(--show-page-break, block);
+}
+
+/* Standard Semantic ATS Elements */
+.resume-header {
+  margin-bottom: var(--section-spacing);
+}
+
+.resume-name {
+  font-size: 20pt;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+}
+
+.resume-title {
+  font-size: 11.5pt;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin: 0 0 8px 0;
+}
+
+.resume-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 9pt;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.contact-item a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact-item a:hover {
+  text-decoration: underline;
+  color: var(--primary-color);
+}
+
+/* Section Containers */
+.resume-section {
+  margin-bottom: var(--section-spacing);
+  page-break-inside: avoid;
+}
+
+.section-title {
+  font-size: 11.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 8px 0;
+  color: var(--text-dark);
+}
+
+.section-content {
+  font-size: var(--resume-font-size);
+}
+
+/* Experience & Project Items */
+.resume-entry {
+  margin-bottom: var(--item-spacing);
+  page-break-inside: avoid;
+}
+
+.resume-entry:last-child {
+  margin-bottom: 0;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.entry-role {
+  font-weight: 700;
+  font-size: 10.2pt;
+  color: var(--text-dark);
+}
+
+.entry-company {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.entry-date {
+  font-size: 8.8pt;
+  font-weight: 500;
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+
+.entry-location {
+  font-size: 8.8pt;
+  color: var(--text-subtle);
+  font-style: normal;
+}
+
+.entry-subtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 2px 0 4px 0;
+  font-size: 9.2pt;
+}
+
+/* Bullet Points */
+.resume-bullets {
+  margin: 4px 0 0 0;
+  padding-left: 18px;
+  list-style-type: disc;
+}
+
+.resume-bullets li {
+  margin-bottom: 3px;
+  line-height: var(--resume-line-height);
+  color: var(--text-dark);
+}
+
+.resume-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+/* Summary / Profile text */
+.resume-summary-text {
+  margin: 0;
+  line-height: var(--resume-line-height);
+  color: var(--text-dark);
+}
+
+/* Skills List */
+.skills-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.skill-category-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  line-height: 1.4;
+}
+
+.skill-category-name {
+  font-weight: 700;
+  font-size: 9.5pt;
+  color: var(--text-dark);
+  min-width: fit-content;
+}
+
+.skill-category-items {
+  color: var(--text-dark);
+  font-size: 9.5pt;
+}
+
+.skills-badge-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.skill-badge {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #1e293b;
+  font-size: 8.5pt;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+/* Education Items */
+.education-item {
+  margin-bottom: var(--item-spacing);
+  page-break-inside: avoid;
+}
+
+.education-item:last-child {
+  margin-bottom: 0;
+}
+
+.education-degree {
+  font-weight: 700;
+  font-size: 10pt;
+  color: var(--text-dark);
+}
+
+.education-school {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.education-meta {
+  font-size: 8.8pt;
+  color: var(--text-subtle);
+}
+
+/* Certifications & Awards */
+.cert-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+  font-size: 9.5pt;
+}
+
+.cert-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.cert-issuer {
+  color: var(--text-muted);
+}
+
+.cert-date {
+  font-size: 8.8pt;
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+
+/* Custom Section */
+.custom-item {
+  margin-bottom: 6px;
+}
+
+.custom-item-title {
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PRINT ENGINE (EXACT A4 / ZERO-MARGIN PDF)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10pt;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide entire App Studio UI during print */
+  .app-header,
+  .editor-sidebar,
+  .preview-toolbar,
+  .page-2-indicator,
+  .modal-overlay,
+  .toast-container,
+  .theme-customizer,
+  .ats-sidebar,
+  .mobile-tabs {
+    display: none !important;
+  }
+
+  .app-layout {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .preview-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+    width: 100% !important;
+  }
+
+  .resume-paper-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .resume-paper {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 16mm 16mm !important;
+    transform: none !important;
+  }
+
+  .resume-paper::after {
+    display: none !important;
+  }
+
+  .resume-section {
+    page-break-inside: auto;
+  }
+
+  .resume-entry,
+  .education-item,
+  .cert-item {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .section-title {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+}

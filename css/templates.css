@@ -1,0 +1,209 @@
+/* ==========================================================================
+   5 ATS-FRIENDLY RESUME TEMPLATES
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CLASSIC CORPORATE (Single Column, High Contrast, Universally ATS-Safe)
+   -------------------------------------------------------------------------- */
+.template-classic .resume-header {
+  text-align: center;
+  border-bottom: 2px solid var(--text-dark);
+  padding-bottom: 12px;
+}
+
+.template-classic .resume-name {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.template-classic .resume-contacts {
+  justify-content: center;
+}
+
+.template-classic .section-title {
+  border-bottom: 1px solid var(--divider-color);
+  padding-bottom: 3px;
+  color: var(--primary-color);
+  font-size: 11pt;
+}
+
+.template-classic .entry-role {
+  color: var(--text-dark);
+}
+
+.template-classic .entry-company {
+  font-style: italic;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. MODERN TECH (Clean, Accent Accented, Contemporary)
+   -------------------------------------------------------------------------- */
+.template-modern .resume-header {
+  border-left: 4px solid var(--primary-color);
+  padding-left: 14px;
+}
+
+.template-modern .resume-name {
+  color: var(--text-dark);
+}
+
+.template-modern .resume-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10pt;
+  letter-spacing: 0.5px;
+}
+
+.template-modern .section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary-color);
+  font-size: 11pt;
+}
+
+.template-modern .section-title::after {
+  content: "";
+  flex: 1;
+  height: 1.5px;
+  background: var(--border-color);
+}
+
+.template-modern .entry-role {
+  color: var(--primary-color);
+}
+
+.template-modern .skill-badge {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  border-color: rgba(30, 58, 138, 0.15);
+}
+
+
+/* --------------------------------------------------------------------------
+   3. MINIMALIST CLEAN (Monochrome, Dense, 100% Parser Compliant)
+   -------------------------------------------------------------------------- */
+.template-minimal {
+  color: #1a1a1a;
+}
+
+.template-minimal .resume-header {
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 10px;
+}
+
+.template-minimal .resume-name {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.template-minimal .resume-title {
+  color: #444444;
+}
+
+.template-minimal .section-title {
+  font-size: 10pt;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #1a1a1a;
+  border-bottom: 1px dashed #d1d5db;
+  padding-bottom: 2px;
+}
+
+.template-minimal .entry-role {
+  font-weight: 700;
+}
+
+.template-minimal .entry-company {
+  font-weight: 400;
+  color: #374151;
+}
+
+.template-minimal .skill-badge {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. COMPACT TWO-COLUMN (ATS-Engineered DOM, Split Visual Grid)
+   -------------------------------------------------------------------------- */
+.template-compact .resume-body-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.template-compact .main-column {
+  order: 1;
+}
+
+.template-compact .side-column {
+  order: 2;
+  border-left: 1px solid var(--border-color);
+  padding-left: 18px;
+}
+
+.template-compact .resume-header {
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+}
+
+.template-compact .section-title {
+  font-size: 10.5pt;
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 2px;
+}
+
+.template-compact .side-column .section-title {
+  font-size: 9.8pt;
+}
+
+.template-compact .side-column .education-degree {
+  font-size: 9.2pt;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. EXECUTIVE LEADERSHIP (Polished, Premium, Strategic Focus)
+   -------------------------------------------------------------------------- */
+.template-executive .resume-header {
+  background: #f8fafc;
+  margin: -20mm -18mm var(--section-spacing) -18mm;
+  padding: 16mm 18mm 12mm 18mm;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+@media print {
+  .template-executive .resume-header {
+    margin: -16mm -16mm var(--section-spacing) -16mm !important;
+    padding: 14mm 16mm 10mm 16mm !important;
+  }
+}
+
+.template-executive .resume-name {
+  font-size: 22pt;
+  color: var(--primary-color);
+  letter-spacing: -0.5px;
+}
+
+.template-executive .resume-title {
+  font-size: 12pt;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.template-executive .section-title {
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-left: 3px solid var(--primary-color);
+  color: var(--text-dark);
+  font-size: 10.5pt;
+}
+
+.template-executive .resume-bullets li {
+  margin-bottom: 4px;
+}
