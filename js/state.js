@@ -269,7 +269,10 @@ const EMPTY_STATE = {
     location: '',
     website: '',
     linkedin: '',
-    github: ''
+    github: '',
+    photo: null,
+    photoShape: 'circle',
+    showPhoto: true
   },
   summary: '',
   experience: [],
@@ -349,6 +352,32 @@ class ResumeState {
   // Updates personal info field
   updatePersonal(field, value) {
     this.state.personal[field] = value;
+    this.save();
+  }
+
+  // Photo Methods
+  updatePhoto(dataUrl) {
+    if (!this.state.personal) this.state.personal = {};
+    this.state.personal.photo = dataUrl;
+    this.state.personal.showPhoto = true;
+    this.save();
+  }
+
+  removePhoto() {
+    if (!this.state.personal) this.state.personal = {};
+    this.state.personal.photo = null;
+    this.save();
+  }
+
+  updatePhotoShape(shape) {
+    if (!this.state.personal) this.state.personal = {};
+    this.state.personal.photoShape = shape;
+    this.save();
+  }
+
+  togglePhoto(show) {
+    if (!this.state.personal) this.state.personal = {};
+    this.state.personal.showPhoto = show;
     this.save();
   }
 

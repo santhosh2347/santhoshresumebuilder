@@ -33,6 +33,12 @@ Then visit: **`http://localhost:3000`** in your browser.
 
 ## 🌟 Key Features
 
+* **📷 Profile Photo Attachment (Optional)**:
+  * Upload custom headshot/profile photo (PNG, JPG, WebP).
+  * 3 customizable frame shapes: **Circle**, **Rounded**, or **Square**.
+  * Dynamic accent borders matched to your active color theme.
+  * One-click **"Show on Resume"** toggle (easily enable or disable for ATS requirements).
+  * Direct rendering in Softcopy PDF download and print without cross-origin issues.
 * **📱 Mobile-Friendly Responsive UI**:
   * Seamless mobile mode switcher (`✏️ Edit Resume` vs `👁️ Live Preview`).
   * Full-width single-column responsive form layout on phones and tablets.

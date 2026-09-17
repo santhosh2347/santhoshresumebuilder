@@ -6,6 +6,7 @@ class ResumeEditor {
   constructor() {
     this.activeTab = 'personal';
     this.initTabs();
+    this.initPhotoUploader();
     this.initPersonalForm();
     this.initSummaryForm();
     this.initAppearanceForm();
@@ -29,6 +30,57 @@ class ResumeEditor {
     });
     document.querySelectorAll('.tab-pane').forEach(p => {
       p.classList.toggle('active', p.id === `tab-${tabKey}`);
+    });
+  }
+
+  initPhotoUploader() {
+    const fileInput = document.getElementById('input-photo-file');
+    const removeBtn = document.getElementById('btn-remove-photo');
+    const toggleInput = document.getElementById('input-photo-toggle');
+    const shapeGroup = document.getElementById('photo-shape-group');
+
+    fileInput?.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file (PNG, JPG, JPEG, or WebP).');
+        return;
+      }
+
+      // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image is too large. Please select a photo under 5MB.');
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        window.resumeState.updatePhoto(event.target.result);
+        if (window.showToast) {
+          window.showToast("Profile photo attached successfully!", "success");
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    removeBtn?.addEventListener('click', () => {
+      window.resumeState.removePhoto();
+      if (fileInput) fileInput.value = '';
+      if (window.showToast) {
+        window.showToast("Profile photo removed", "info");
+      }
+    });
+
+    toggleInput?.addEventListener('change', (e) => {
+      window.resumeState.togglePhoto(e.target.checked);
+    });
+
+    shapeGroup?.querySelectorAll('.btn-shape-select').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const shape = btn.getAttribute('data-shape');
+        window.resumeState.updatePhotoShape(shape);
+      });
     });
   }
 
@@ -165,6 +217,43 @@ class ResumeEditor {
       if (input && input.value !== (p[field] || '')) {
         input.value = p[field] || '';
       }
+    });
+
+    // Sync Profile Photo
+    const pPhoto = p.photo;
+    const pShape = p.photoShape || 'circle';
+    const pShow = p.showPhoto !== false;
+
+    const imgPreview = document.getElementById('photo-img-preview');
+    const placeholder = document.getElementById('photo-placeholder-icon');
+    const removeBtn = document.getElementById('btn-remove-photo');
+    const previewBox = document.getElementById('photo-preview-box');
+    const toggleInput = document.getElementById('input-photo-toggle');
+
+    if (toggleInput) toggleInput.checked = pShow;
+
+    if (pPhoto) {
+      if (imgPreview) {
+        imgPreview.src = pPhoto;
+        imgPreview.style.display = 'block';
+      }
+      if (placeholder) placeholder.style.display = 'none';
+      if (removeBtn) removeBtn.style.display = 'inline-flex';
+    } else {
+      if (imgPreview) {
+        imgPreview.src = '';
+        imgPreview.style.display = 'none';
+      }
+      if (placeholder) placeholder.style.display = 'flex';
+      if (removeBtn) removeBtn.style.display = 'none';
+    }
+
+    if (previewBox) {
+      previewBox.className = `photo-preview-wrapper shape-${pShape}`;
+    }
+
+    document.querySelectorAll('#photo-shape-group .btn-shape-select').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-shape') === pShape);
     });
 
     // Sync summary

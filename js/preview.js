@@ -85,7 +85,26 @@ class ResumePreview {
       contacts.push(`<span class="contact-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg><a href="${url}" target="_blank" rel="noopener">${this.escape(personal.website.replace(/^https?:\/\/(www\.)?/, ''))}</a></span>`);
     }
 
-    const headerHtml = `
+    // Build Photo HTML if attached and enabled
+    const hasPhoto = Boolean(personal.photo) && personal.showPhoto !== false;
+    const photoHtml = hasPhoto ? `
+      <div class="resume-photo-container">
+        <img src="${personal.photo}" alt="${this.escape(personal.name || 'Candidate')}" class="resume-photo photo-${personal.photoShape || 'circle'}">
+      </div>
+    ` : '';
+
+    const headerHtml = hasPhoto ? `
+      <header class="resume-header has-photo">
+        <div class="resume-header-row">
+          <div class="resume-header-info">
+            <h1 class="resume-name">${this.escape(personal.name || 'Your Full Name')}</h1>
+            ${personal.title ? `<div class="resume-title">${this.escape(personal.title)}</div>` : ''}
+            ${contacts.length > 0 ? `<div class="resume-contacts">${contacts.join('')}</div>` : ''}
+          </div>
+          ${photoHtml}
+        </div>
+      </header>
+    ` : `
       <header class="resume-header">
         <h1 class="resume-name">${this.escape(personal.name || 'Your Full Name')}</h1>
         ${personal.title ? `<div class="resume-title">${this.escape(personal.title)}</div>` : ''}

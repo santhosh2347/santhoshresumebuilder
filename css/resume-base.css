@@ -74,6 +74,43 @@
   margin-bottom: var(--section-spacing);
 }
 
+.resume-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.resume-header-info {
+  flex: 1;
+}
+
+.resume-photo-container {
+  flex-shrink: 0;
+}
+
+.resume-photo {
+  width: 76px;
+  height: 76px;
+  object-fit: cover;
+  display: block;
+}
+
+.resume-photo.photo-circle {
+  border-radius: 50%;
+  border: 2.5px solid var(--primary-color);
+}
+
+.resume-photo.photo-rounded {
+  border-radius: 8px;
+  border: 2.5px solid var(--primary-color);
+}
+
+.resume-photo.photo-square {
+  border-radius: 2px;
+  border: 2.5px solid var(--primary-color);
+}
+
 .resume-name {
   font-size: 20pt;
   font-weight: 700;

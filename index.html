@@ -117,6 +117,53 @@
 
         <!-- 1. PERSONAL INFO TAB -->
         <div id="tab-personal" class="tab-pane active">
+          
+          <!-- Profile Photo Upload Card -->
+          <div class="editor-card">
+            <div class="editor-card-header">
+              <div class="editor-card-title">📷 Profile Photo (Optional)</div>
+              <label class="form-checkbox-label">
+                <input type="checkbox" id="input-photo-toggle" checked>
+                Show on Resume
+              </label>
+            </div>
+            
+            <div class="photo-upload-layout">
+              <div class="photo-preview-wrapper shape-circle" id="photo-preview-box">
+                <img id="photo-img-preview" src="" alt="Photo Preview" class="photo-preview-img" style="display: none;">
+                <div id="photo-placeholder-icon" class="photo-placeholder">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span style="font-size: 10px; margin-top: 4px; color: var(--text-dim);">No Photo</span>
+                </div>
+              </div>
+
+              <div class="photo-controls-area">
+                <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                  <label for="input-photo-file" class="btn btn-secondary btn-sm" style="cursor: pointer;">
+                    📁 Choose Photo
+                  </label>
+                  <input type="file" id="input-photo-file" accept="image/png, image/jpeg, image/webp" style="display: none;">
+                  <button type="button" id="btn-remove-photo" class="btn btn-danger-ghost btn-sm" style="display: none;">
+                    Remove Photo
+                  </button>
+                </div>
+
+                <div class="photo-options-row" style="margin-top: 10px;">
+                  <span class="form-label" style="margin-bottom: 4px; font-size: 11px;">Photo Frame Shape:</span>
+                  <div class="photo-shape-selectors" id="photo-shape-group">
+                    <button type="button" class="btn-shape-select active" data-shape="circle">Circle</button>
+                    <button type="button" class="btn-shape-select" data-shape="rounded">Rounded</button>
+                    <button type="button" class="btn-shape-select" data-shape="square">Square</button>
+                  </div>
+                </div>
+                <div class="form-hint" style="font-size: 11px; margin-top: 5px;">Supports JPG, PNG, or WebP. Stored locally in your browser.</div>
+              </div>
+            </div>
+          </div>
+
           <div class="editor-card">
             <div class="editor-card-header">
               <div class="editor-card-title">Personal & Contact Information</div>
