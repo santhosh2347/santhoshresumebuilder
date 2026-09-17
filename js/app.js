@@ -319,6 +319,188 @@ document.addEventListener('DOMContentLoaded', () => {
     `).join('');
   }
 
+  // ==========================================
+  // AI ASSISTANT & GRAMMAR CONTROLS
+  // ==========================================
+  const ai = window.aiAssistant;
+
+  // Summary Inline Polish
+  document.getElementById('btn-summary-ai-polish')?.addEventListener('click', () => {
+    editor.polishSummary();
+  });
+
+  // Toggle AI Settings
+  const settingsPanel = document.getElementById('ai-settings-panel');
+  document.getElementById('btn-toggle-ai-settings')?.addEventListener('click', () => {
+    if (settingsPanel) {
+      settingsPanel.style.display = settingsPanel.style.display === 'none' ? 'block' : 'none';
+    }
+  });
+
+  // AI Engine Selection
+  const engineSelect = document.getElementById('ai-engine-select');
+  const keyGroup = document.getElementById('ai-api-key-group');
+  const keyInput = document.getElementById('ai-api-key-input');
+  const keyLabel = document.getElementById('ai-api-key-label');
+
+  function updateAIEngineUI() {
+    if (!engineSelect) return;
+    const provider = engineSelect.value;
+    ai.setProvider(provider);
+
+    if (provider === 'gemini') {
+      if (keyGroup) keyGroup.style.display = 'block';
+      if (keyLabel) keyLabel.textContent = 'Google Gemini API Key:';
+      if (keyInput) keyInput.value = ai.geminiKey;
+    } else if (provider === 'openai') {
+      if (keyGroup) keyGroup.style.display = 'block';
+      if (keyLabel) keyLabel.textContent = 'OpenAI API Key:';
+      if (keyInput) keyInput.value = ai.openaiKey;
+    } else {
+      if (keyGroup) keyGroup.style.display = 'none';
+    }
+  }
+
+  if (engineSelect) {
+    engineSelect.value = ai.provider;
+    updateAIEngineUI();
+    engineSelect.addEventListener('change', updateAIEngineUI);
+  }
+
+  document.getElementById('btn-save-ai-key')?.addEventListener('click', () => {
+    const provider = engineSelect ? engineSelect.value : 'builtin';
+    const key = keyInput ? keyInput.value.trim() : '';
+    ai.setApiKey(provider, key);
+    window.showToast(`Saved API key for ${provider.toUpperCase()}`, "success");
+  });
+
+  // Run AI Grammar & Style Audit
+  const auditResultsArea = document.getElementById('ai-audit-results-area');
+  document.getElementById('btn-run-ai-audit')?.addEventListener('click', () => {
+    if (!auditResultsArea) return;
+    auditResultsArea.innerHTML = `<div style="text-align: center; padding: 20px; color: var(--text-muted);"><div class="spinner" style="margin: 0 auto 10px auto; width: 28px; height: 28px; border-width: 2.5px;"></div>Auditing resume for typos, passive voice, and phrasing...</div>`;
+
+    setTimeout(() => {
+      const currentState = stateStore.getState();
+      const issues = ai.scanResume(currentState);
+
+      if (issues.length === 0) {
+        auditResultsArea.innerHTML = `
+          <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: var(--radius-sm); padding: 16px; text-align: center;">
+            <div style="font-size: 24px; margin-bottom: 6px;">🎉</div>
+            <div style="font-weight: 700; color: #34d399; font-size: 14px;">Flawless Resume Language!</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">No spelling errors, passive voice, or weak phrasing detected across your resume.</div>
+          </div>
+        `;
+        return;
+      }
+
+      auditResultsArea.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-studio);">
+          <span style="font-weight: 700; font-size: 13px; color: #f87171;">⚠️ Found ${issues.length} Improvement${issues.length > 1 ? 's' : ''}</span>
+          <button type="button" id="btn-apply-all-fixes" class="btn btn-primary btn-sm">
+            ⚡ Apply All Fixes
+          </button>
+        </div>
+        <div id="ai-issues-list">
+          ${issues.map(iss => `
+            <div class="ai-audit-card" data-issue-id="${iss.id}">
+              <div class="ai-audit-card-top">
+                <span class="ai-location-tag">${iss.location}</span>
+                <span class="ai-issue-badge">${iss.issueType}</span>
+              </div>
+              <div class="ai-diff-box">
+                <span class="ai-diff-original">${iss.originalSnippet}</span> &rarr; <span class="ai-diff-corrected">${iss.correctedSnippet}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 2px;">
+                <span class="ai-explanation">${iss.explanation}</span>
+                <button type="button" class="btn btn-secondary btn-sm btn-apply-single-fix" data-fix-id="${iss.id}">
+                  Apply Fix
+                </button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Bind single fix buttons
+      auditResultsArea.querySelectorAll('.btn-apply-single-fix').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const fixId = btn.getAttribute('data-fix-id');
+          const issueObj = issues.find(i => i.id === fixId);
+          if (issueObj) {
+            ai.applyFix(issueObj);
+            btn.closest('.ai-audit-card')?.remove();
+            window.showToast("Applied correction!", "success");
+            // If empty
+            if (auditResultsArea.querySelectorAll('.ai-audit-card').length === 0) {
+              document.getElementById('btn-run-ai-audit')?.click();
+            }
+          }
+        });
+      });
+
+      // Bind apply all fixes
+      document.getElementById('btn-apply-all-fixes')?.addEventListener('click', () => {
+        let count = 0;
+        issues.forEach(iss => {
+          if (ai.applyFix(iss)) count++;
+        });
+        window.showToast(`Applied all ${count} fixes successfully!`, "success");
+        // Re-scan
+        document.getElementById('btn-run-ai-audit')?.click();
+      });
+
+    }, 250);
+  });
+
+  // AI Bullet Point Rewriter
+  const rewriteInput = document.getElementById('ai-rewrite-input');
+  const rewriteTone = document.getElementById('ai-rewrite-tone');
+  const rewriteOutputArea = document.getElementById('ai-rewrite-output-area');
+  const btnGenerateRewrite = document.getElementById('btn-generate-ai-rewrite');
+
+  btnGenerateRewrite?.addEventListener('click', async () => {
+    const text = rewriteInput ? rewriteInput.value.trim() : '';
+    if (!text) {
+      alert('Please enter a sentence or bullet point to rewrite.');
+      return;
+    }
+
+    const tone = rewriteTone ? rewriteTone.value : 'ats_impact';
+    if (btnGenerateRewrite) {
+      btnGenerateRewrite.disabled = true;
+      btnGenerateRewrite.textContent = 'Generating...';
+    }
+
+    try {
+      const suggestions = await ai.rewriteText(text, tone);
+      if (rewriteOutputArea) {
+        rewriteOutputArea.style.display = 'block';
+        rewriteOutputArea.innerHTML = `
+          <div style="font-size: 12px; font-weight: 700; color: #93c5fd; margin-bottom: 8px;">
+            ✨ AI Suggestions (Click to copy or use):
+          </div>
+          ${suggestions.map(s => `
+            <div class="ai-suggestion-item">
+              <span style="flex: 1; line-height: 1.4;">${s}</span>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText('${s.replace(/'/g, "\\'")}'); window.showToast('Copied to clipboard!', 'info');">
+                Copy
+              </button>
+            </div>
+          `).join('')}
+        `;
+      }
+    } catch (err) {
+      alert(`Rewrite Error: ${err.message}`);
+    } finally {
+      if (btnGenerateRewrite) {
+        btnGenerateRewrite.disabled = false;
+        btnGenerateRewrite.textContent = '⚡ Rewrite with AI';
+      }
+    }
+  });
+
   // Close modals on clicking outside backdrop
   document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
     backdrop.addEventListener('click', (e) => {

@@ -33,6 +33,15 @@ Then visit: **`http://localhost:3000`** in your browser.
 
 ## 🌟 Key Features
 
+* **🤖 AI Resume & Grammar Polish Assistant**:
+  * **Full Resume Grammar & Style Audit**: 1-click scan across Professional Summary, Experience bullets, and Projects.
+  * **Intelligent Error Detection**: Identifies spelling typos, repeated words, passive voice, weak phrasing, capitalization, and punctuation spacing.
+  * **1-Click Apply & Batch Fix**: Review diffs with side-by-side strikethrough/highlight preview and click "Apply Fix" or "⚡ Apply All Fixes".
+  * **AI Bullet Point & Summary Rewriter**: Instant rephrasing into *ATS High-Impact*, *Crisp & Concise*, or *Executive Leadership* tone.
+  * **Dual Engine Flexibility**:
+    * **Built-in Smart Engine (Default)**: 100% Free, offline, instant, zero API keys required.
+    * **LLM Integration (Optional)**: Connect your Google Gemini API or OpenAI key for generative AI rewrites directly in the browser!
+  * **Inline ✨ AI Polish**: Instant 1-tap polish buttons right on the Summary and each Experience role card.
 * **📷 Profile Photo Attachment (Optional)**:
   * Upload custom headshot/profile photo (PNG, JPG, WebP).
   * 3 customizable frame shapes: **Circle**, **Rounded**, or **Square**.

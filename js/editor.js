@@ -376,12 +376,71 @@ class ResumeEditor {
         <div class="form-group" style="margin-bottom: 0;">
           <div style="display: flex; justify-content: space-between; align-items: baseline;">
             <label class="form-label">Achievements & Responsibilities (1 bullet per line)</label>
+            <button type="button" class="btn btn-ai-glow btn-sm" style="font-size: 11px; padding: 2px 8px; margin-bottom: 4px;" onclick="window.resumeEditor.polishExperienceBullets('${item.id}')">✨ AI Polish</button>
           </div>
           <textarea class="form-textarea" rows="4" placeholder="• Spearheaded design of microservices handling 10M+ requests with 99.99% uptime&#10;• Reduced latency by 42% through query optimization" oninput="window.resumeState.updateItem('experience', '${item.id}', 'bullets', this.value)">${this.escape(item.bullets || '')}</textarea>
           <div class="form-hint">Tip: Start each line with strong action verbs (Led, Architected, Slashed) and quantify with numbers/percentages.</div>
         </div>
       </div>
     `).join('');
+  }
+
+  polishSummary() {
+    const state = window.resumeState.getState();
+    const summary = state.summary || '';
+    if (!summary.trim()) {
+      if (window.showToast) window.showToast("Please enter a summary first.", "warning");
+      return;
+    }
+
+    const issues = window.aiAssistant.analyzeText(summary, 'Summary', { type: 'summary' });
+    if (issues.length === 0) {
+      if (window.showToast) window.showToast("Summary grammar and phrasing look great!", "success");
+      return;
+    }
+
+    issues.forEach(iss => {
+      window.aiAssistant.applyFix(iss);
+    });
+    if (window.showToast) {
+      window.showToast(`AI polished summary: Fixed ${issues.length} grammar/style issues!`, "success");
+    }
+  }
+
+  polishExperienceBullets(expId) {
+    const state = window.resumeState.getState();
+    const exp = (state.experience || []).find(e => e.id === expId);
+    if (!exp || !exp.bullets) {
+      if (window.showToast) window.showToast("Please enter bullet points first.", "warning");
+      return;
+    }
+
+    const lines = exp.bullets.split('\n');
+    let fixedCount = 0;
+    lines.forEach((line, idx) => {
+      if (!line.trim()) return;
+      const issues = window.aiAssistant.analyzeText(line, 'Bullets', {
+        type: 'experience',
+        id: expId,
+        bulletIndex: idx
+      });
+      issues.forEach(iss => {
+        window.aiAssistant.applyFix(iss);
+        fixedCount++;
+      });
+    });
+
+    if (fixedCount > 0) {
+      this.lastExpSig = null; // force re-render
+      window.resumeState.notify();
+      if (window.showToast) {
+        window.showToast(`AI polished bullets: Fixed ${fixedCount} grammar/style issues!`, "success");
+      }
+    } else {
+      if (window.showToast) {
+        window.showToast("Bullet points grammar and active voice look clean!", "success");
+      }
+    }
   }
 
   // --- Dynamic Education List ---

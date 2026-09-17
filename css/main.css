@@ -841,6 +841,124 @@ body {
   color: var(--text-muted);
 }
 
+/* --------------------------------------------------------------------------
+   AI ASSISTANT & GRAMMAR POLISH STYLES
+   -------------------------------------------------------------------------- */
+.ai-settings-panel {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-studio);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-bottom: 16px;
+  animation: modalIn 0.2s ease;
+}
+
+.ai-audit-card {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--border-studio);
+  border-left: 3px solid #8b5cf6;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ai-audit-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-location-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #c4b5fd;
+}
+
+.ai-issue-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+}
+
+.ai-diff-box {
+  background: #0f172a;
+  border: 1px solid var(--border-studio);
+  border-radius: 4px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.ai-diff-original {
+  color: #f87171;
+  text-decoration: line-through;
+  margin-right: 6px;
+}
+
+.ai-diff-corrected {
+  color: #34d399;
+  font-weight: 600;
+}
+
+.ai-explanation {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.ai-suggestion-box {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid #3b82f6;
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.ai-suggestion-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-studio);
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.ai-suggestion-item:last-child {
+  margin-bottom: 0;
+}
+
+.ai-badge {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.btn-ai-glow {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+}
+
+.btn-ai-glow:hover {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
 /* Toast Notifications */
 .toast-container {
   position: fixed;
